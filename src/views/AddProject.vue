@@ -16,12 +16,31 @@ export default {
         return {
             title: '',
             details: '',
+            uri: 'http://localhost:3000/projects/'
         }
     },
 
-    handleSubmit() {
-        console.log(this.title);
-        console.log(this.details);
+    methods: {
+        handleSubmit() {
+            let project = {
+                title: this.title,
+                details: this.details,
+                complete: false
+            }
+
+            fetch(this.uri, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(project)
+            })
+            .then(response => {
+                console.log(response);
+                this.$router.push({ name: 'Home' });
+            });
+
+
+
+        }
     }
 }
 </script>
