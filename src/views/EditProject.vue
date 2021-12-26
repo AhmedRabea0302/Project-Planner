@@ -25,9 +25,11 @@ export default {
         EditProject() {
             fetch(this.uri, {
                 method: 'PATCH',
-                headers: {'Content-Type': 'application/'},
-                body: {title: this.title, details: this.details}
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({title: this.title, details: this.details})
             })
+            .then(rsp => this.$router.push({name: 'Home'}))
+            .catch(error => console.log(error))
         }
     },
 
