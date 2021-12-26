@@ -1,11 +1,17 @@
 <template>
-  <div class="project">
+  <div class="project" :class="{complete: project.complete}">
       <div class="actions">
           <h3 @click="showDetails = !showDetails">{{ project.title }}</h3>
+          <div>
+            <span class="material-icons">edit</span>
+            <span @click="deleteProject" class="material-icons">delete</span>
+            <span @click="toggleComplete" class="material-icons tick">done</span>
+          </div>
       </div>
 
       <div class="details">
           <p v-if="showDetails">{{ project.details }}</p>
+          
       </div>
   </div>
 </template>
@@ -17,11 +23,26 @@ export default {
     data() {
         return {
             showDetails: false,
+            uri: 'http://localhost:3000/projects/' + this.project.id
         }
     },
 
     methods: {
+        deleteProject() {
+            fetch(this.uri, {method: 'DELETE'})
+            .then(() => this.$emit('delete', this.project.id))
+            .catch((error) => console.log(error))
+        },
 
+        toggleComplete() {
+            fetch(this.uri, {
+                method: 'PATCH',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify( {complete: !this.project.complete} )
+            })
+            .then(() => this.$emit('complete', this.project.id))
+            .catch(error => console.log(error));
+        }
     }
 
 }
@@ -42,4 +63,27 @@ h3 {
     cursor: pointer;
 }
 
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.material-icons {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #bbb;
+}
+
+.material-icons:hover {
+    color: #777;
+}
+
+.project.complete {
+    border-left: 4px solid #00ce89;
+}
+
+.project.complete .tick {
+    color: #00ce89;
+}
 </style>
