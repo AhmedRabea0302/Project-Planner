@@ -4,13 +4,13 @@
       "id": 1,
       "title": "Lorama",
       "details": "Lorem Ipsum hassona e55",
-      "complete": false
+      "complete": true
     },
     {
       "id": 2,
       "title": "Develop English",
       "details": "Get The english Course",
-      "complete": true
+      "complete": false
     },
     {
       "id": 3,
